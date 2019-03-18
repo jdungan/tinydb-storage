@@ -5,7 +5,7 @@ from tinydb import Storage
 import boto3
 import botocore
 
-from settings import APPLICATION_BUCKET
+APPLICATION_BUCKET = 'twd-demo'
 
 s3 = boto3.resource('s3')
 s3_client = boto3.client('s3')
