@@ -26,13 +26,13 @@ class S3Storage(Storage):
     def __init__(self, filename):
         self.filename = filename
         # make sure the key exists
-        try:
-            s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
-        except botocore.exceptions.ClientError as e:
-            if e.response['Error']['Code'] == "404":
-                s3.Bucket(APPLICATION_BUCKET).put_object(Key=self.filename, Body="{_default': {}}")
-            else:
-                raise
+        # try:
+        #     s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
+        # except botocore.exceptions.ClientError as e:
+        #     if e.response['Error']['Code'] == "404":
+        #         s3.Bucket(APPLICATION_BUCKET).put_object(Key=self.filename, Body="{_default': {}}")
+        #     else:
+        #         raise
 
     def read(self):
         s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
