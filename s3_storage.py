@@ -25,7 +25,7 @@ class S3Storage(Storage):
 
     def __init__(self, filename):
         self.filename = filename
-        # make sure the key exists
+        # # make sure the key exists
         # try:
         #     s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
         # except botocore.exceptions.ClientError as e:
