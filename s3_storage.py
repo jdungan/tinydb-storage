@@ -5,7 +5,7 @@ from tinydb import Storage
 import boto3
 import botocore
 
-APPLICATION_BUCKET = 'twd-demo'
+from settings import APPLICATION_BUCKET
 
 s3 = boto3.resource('s3')
 s3_client = boto3.client('s3')
@@ -20,23 +20,21 @@ except botocore.exceptions.ClientError as e:
         else:
             raise e
 
-
 class S3Storage(Storage):
 
     def __init__(self, filename):
         self.filename = filename
-        # # make sure the key exists
-        # try:
-        #     s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
-        # except botocore.exceptions.ClientError as e:
-        #     if e.response['Error']['Code'] == "404":
-        #         s3.Bucket(APPLICATION_BUCKET).put_object(Key=self.filename, Body="{_default': {}}")
-        #     else:
-        #         raise
+        # make sure the key exists
+        try:
+            s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
+        except botocore.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == "NoSuchKey":
+                s3.Bucket(APPLICATION_BUCKET).put_object(Key=self.filename, Body="{_default': {}}")
+            else:
+                raise
 
     def read(self):
         s3_object = s3_client.get_object(Bucket=APPLICATION_BUCKET, Key=self.filename)
-
         try:
             bytestream = BytesIO(s3_object['Body'].read())
             decode_stream = bytestream.read().decode('utf-8')

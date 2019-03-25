@@ -1,13 +1,14 @@
-Usage:
+Install
 
-'''
+`pip install -r requirements.txt`
+
+Usage
+
+
+```
 from tinydb import TinyDB, Query
-from tinydb.middlewares import CachingMiddleware
 
-from .s3_storage import S3Storage
+from s3_storage import S3Storage
 
-s3Middleware = CachingMiddleware(S3Storage)
-
-subscriptions_tinydb = TinyDB(SUBSCRIPTIONS_DATABASE, storage=s3Middleware())
-
-'''
+s3_db = TinyDB('db2.json', storage=S3Storage)
+```
